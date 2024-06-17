@@ -1,0 +1,62 @@
+@import './base.css';
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+
+.form-label {
+    @apply font-bold text-gray-600 text-lg;
+}
+
+.input-container {
+    @apply flex flex-col;
+}
+
+.image-centered-absolute {
+    @apply absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-[90%];
+}
+
+.form-input {
+    @apply h-[64px] bg-primaryLightOpaque border-2 border-primaryLightStroke rounded-[10px] font-inter text-primaryLight focus:outline-primaryLight caret-primary placeholder:text-primaryLightStroke;
+}
+
+.form-input--start-image {
+    @apply bg-[length:30px] bg-no-repeat bg-[10px_center]
+}
+
+.form-input--wide {
+    @apply w-[453px] ps-[50px] text-[18px]
+}
+
+.form-input--no-image {
+    @apply w-[453px] ps-[10px] text-[18px]
+}
+
+.form-input--narrow {
+    @apply w-[64px] text-center text-[32px]
+}
+
+.form-input--narrow::-webkit-outer-spin-button,
+.form-input--narrow::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+    -moz-appearance: textfield;
+}
+
+.btn-primary {
+    @apply rounded-[10px] bg-primaryLight hover:bg-primary disabled:bg-primaryLightOpaque w-[453px] h-[64px] text-white font-bold text-[20px] font-inter;
+}
+
+.header {
+    @apply text-[40px] font-bold text-fontSecondary;
+}
+
+.form {
+    @apply flex flex-col items-center;
+}
+
+.checkbox {
+    @apply appearance-none h-5 w-5 bg-[length:20px] bg-unchecked cursor-pointer checked:bg-checked hover:bg-primaryLightOpaque;
+}
+
+.eye-slash {
+    @apply absolute top-1/2 right-[20px] -translate-y-1/2 cursor-pointer hover:scale-110;
+}
