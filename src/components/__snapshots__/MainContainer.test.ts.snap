@@ -1,0 +1,8 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`MainContainer.vue > renders correctly 1`] = `
+<main>
+  
+  
+</main>
+`;

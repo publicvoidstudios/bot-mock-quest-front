@@ -1,5 +1,10 @@
 import type {User} from "@/ts/types";
 
-export const storeUser = (data: User): void => {
-    localStorage.setItem('user', JSON.stringify(data));
+export const storeUser = (data: User | null): void => {
+    if(data) {
+        localStorage.setItem('user', JSON.stringify(data));
+    } else {
+        localStorage.removeItem('user');
+    }
+
 }

@@ -1,27 +1,30 @@
 <template>
   <MainContainer>
-    <LeftSide>
-      <h2 class="header mb-[25px]">Login to your Account</h2>
-      <div class="flex items-center justify-center mt-[-3px] mb-[28px]">
-        <hr class="w-[120px] border-s border-fontSecondarySubtle">
-        <span class="text-[15px] text-fontSecondarySubtle w-[213px] text-center">with email</span>
-        <hr class="w-[120px] border-s border-fontSecondarySubtle">
+    <FormContainer>
+      <div class="w-[100%] sm:w-[450px]">
+        <h2 class="header mb-[25px]">Login to your Account</h2>
+        <div class="flex items-center justify-center mt-[-3px] mb-[28px]">
+          <hr class="w-[30%] sm:w-[120px] border-s border-fontSecondarySubtle">
+          <span class="text-[15px] text-fontSecondarySubtle w-[40%] sm:w-[213px] text-center">with your username</span>
+          <hr class="w-[30%] sm:w-[120px] border-s border-fontSecondarySubtle">
+        </div>
       </div>
-      <form class="form" @submit.prevent>
-        <div>
+
+      <form class="form w-[100%] sm:w-[450px]" @submit.prevent>
+        <div class="w-[90%]">
           <input
-              class="form-input form-input--wide form-input--start-image bg-person mb-[10px]"
+              class="form-input form-input--wide form-input--start-image bg-person mb-[10px] w-[100%]"
               type="text"
               name="username"
               id="username"
               placeholder="Username"
               v-model="username"
           >
-          <label for="email" class="hidden">Email</label>
+          <label for="username" class="hidden">Username</label>
         </div>
-        <div class="relative mb-[25px]">
+        <div class="relative mb-[25px] w-[90%]">
           <input
-              class="form-input form-input--wide form-input--start-image bg-shield-slash"
+              class="pr-[50px] w-[100%] form-input form-input--start-image bg-shield-slash "
               type="password"
               name="password"
               id="password"
@@ -33,18 +36,22 @@
           <span
               class="eye-slash"
               @click="togglePasswordVisibility"
-
           >
-            <img src="../assets/eye-slash.svg" alt="Slashed eye">
+            <svg v-if="passwordInputType === 'text'" viewBox="0 0 24 24" width="30" height="30">
+              <path :fill="'#d3d4eb'" :d="icons.eye"></path>
+            </svg>
+            <svg v-if="passwordInputType === 'password'" viewBox="0 0 24 24" width="30" height="30">
+              <path :fill="'#d3d4eb'" :d="icons.eyeOff"></path>
+            </svg>
           </span>
         </div>
-        <button type="submit" class="btn-primary mb-[20px]" ref="loginBtn" @click.prevent="handleSubmit">LOG IN</button>
+        <button type="submit" class="btn btn-primary mb-[20px]" ref="loginBtn" @click.prevent="handleSubmit">LOG IN</button>
         <div v-if="message" class="mb-[15px]">
           <p class="text-red-500 font-bold">{{message}}</p>
         </div>
         <span class="text-[16px] text-fontSecondarySubtle mb-[20px]">Don’t have account? <router-link class="font-bold text-primaryLight" to="/register">Create an account</router-link></span>
       </form>
-    </LeftSide>
+    </FormContainer>
   </MainContainer>
 </template>
 
@@ -52,24 +59,34 @@
 import {onMounted, type Ref, ref, watch} from 'vue';
 import {useRouter} from "vue-router";
 import MainContainer from "@/components/MainContainer.vue";
-import LeftSide from "@/components/LeftSide.vue";
+import FormContainer from "@/components/FormContainer.vue";
 import {authUser} from "@/ts/authUser";
 
 import type {User} from 'src/ts/types'
 import {useAuthStore} from "@/stores/authStore";
 import {storeUser} from "@/ts/storeUser";
 import {getUserFromStorage} from "@/ts/getUserFromStorage";
+import {mdiEyeOutline, mdiEyeOffOutline} from "@mdi/js"
+
 
 const authStore = useAuthStore();
 const router = useRouter();
+
+const icons = {
+  eye: mdiEyeOutline,
+  eyeOff: mdiEyeOffOutline,
+}
 
 const passwordInput: Ref<HTMLInputElement>|Ref<null>|Ref<unknown> = ref(null);
 
 const loginBtn:any = ref(null);
 
+let passwordInputType = ref('password')
+
 const togglePasswordVisibility = () => {
   const inputElement = passwordInput.value as HTMLInputElement;
   inputElement.type = inputElement.type === 'password' ? 'text' : 'password';
+  passwordInputType.value = passwordInputType.value === 'password' ? 'text' : 'password';
 }
 
 onMounted(() => {

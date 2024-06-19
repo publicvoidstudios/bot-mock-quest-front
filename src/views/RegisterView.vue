@@ -1,25 +1,25 @@
 <template>
   <MainContainer>
-    <LeftSide>
-      <div class="w-[453px] text-start mb-[30px]">
-        <h2 class="header mb-[-8px]">Create your account</h2>
-        <span class="text-[20px] text-fontSecondarySubtle w-[213px] ">Let's get started!</span>
+    <FormContainer>
+      <div class="w-[100%] sm:w-[450px] text-start mb-[30px]">
+        <h2 class="header">Create your account</h2>
+        <span class="text-[20px] text-fontSecondarySubtle w-[210px] ">Let's get started!</span>
       </div>
-      <form class="form">
-        <div class="mb-[10px]">
+      <form class="form w-[100%] sm:w-[450px]">
+        <div class="mb-2.5 w-[100%]">
           <input
-              class="form-input form-input--start-image form-input--wide bg-person"
+              class="form-input form-input--start-image bg-person w-[100%]"
               type="text"
               name="user"
-              id="user"
+              id="user"yy
               placeholder="Username"
               v-model="username"
           >
           <label for="user" class="hidden">Username</label>
         </div>
-        <div class="mb-[10px]">
-          <select class="form-input form-input--start-image form-input--wide bg-person" name="role" id="role" v-model="role">
-            <option disabled selected>Select your role</option>
+        <div class="mb-2.5 w-[100%]">
+          <select class="form-input form-input--start-image form-input--wide bg-person w-[100%]" name="role" id="role" v-model="role">
+            <option value="" disabled selected>Select your role</option>
             <option value="frontend">Frontend developer</option>
             <option value="backend">Backend developer</option>
             <option value="fullstack">Fullstack developer</option>
@@ -29,9 +29,9 @@
           </select>
           <label for="role" class="hidden">Email</label>
         </div>
-        <div class="relative mb-[10px]">
+        <div class="relative mb-2.5 w-[100%]">
           <input
-              class="form-input form-input--start-image form-input--wide bg-shield-slash"
+              class="form-input form-input--start-image form-input--wide bg-shield-slash w-[100%]"
               type="password"
               name="password"
               id="password"
@@ -42,34 +42,44 @@
           <label for="password" class="hidden">Password</label>
           <span
               class="eye-slash"
-              @click="toggleVisibility(passwordInput as HTMLInputElement)"
+              @click="toggleVisibility(passwordInput as HTMLInputElement, 'pass')"
           >
-            <img src="../assets/eye-slash.svg" alt="Slashed eye">
+            <svg v-if="passIconsState['pass'] === 'on'" viewBox="0 0 24 24" width="30" height="30">
+              <path :fill="'#d3d4eb'" :d="icons.eye"></path>
+            </svg>
+            <svg v-if="passIconsState['pass'] === 'off'" viewBox="0 0 24 24" width="30" height="30">
+              <path :fill="'#d3d4eb'" :d="icons.eyeOff"></path>
+            </svg>
           </span>
         </div>
-        <div class="relative mb-[10px]">
+        <div class="relative mb-2.5 w-[100%]">
           <input
-              class="form-input form-input--start-image form-input--wide bg-shield-slash"
+              class="form-input form-input--start-image form-input--wide bg-shield-slash w-[100%]"
               type="password"
               name="passwordRepeat"
               id="passwordRepeat"
               placeholder="Confirm Password"
               v-model="passwordRepeat"
-              ref="passwordCheckInput"
+              ref="passwordRepeatInput"
           >
           <label for="passwordRepeat" class="hidden">Confirm Password</label>
           <span
               class="eye-slash"
-              @click="toggleVisibility(passwordCheckInput as HTMLInputElement)"
+              @click="toggleVisibility(passwordRepeatInput as HTMLInputElement, 'passCheck')"
           >
-            <img src="../assets/eye-slash.svg" alt="Slashed eye">
+            <svg class="" v-if="passIconsState['passCheck'] === 'on'" viewBox="0 0 24 24" width="30" height="30">
+              <path :fill="'#d3d4eb'" :d="icons.eye"></path>
+            </svg>
+            <svg v-if="passIconsState['passCheck'] === 'off'" viewBox="0 0 24 24" width="30" height="30">
+              <path :fill="'#d3d4eb'" :d="icons.eyeOff"></path>
+            </svg>
           </span>
         </div>
 
-        <button type="submit" class="btn-primary mb-[20px]" ref="signupBtn" @click.prevent="handleSignup">SIGN UP</button>
+        <button type="submit" class="btn btn-primary mb-5 mt-2.5" ref="signupBtn" @click.prevent="handleSignup">SIGN UP</button>
         <p class="text-[16px] text-fontSecondarySubtle mb-[20px]">You have account? <router-link class="font-bold text-primaryLight cursor-pointer" to="/login">Login now</router-link></p>
       </form>
-    </LeftSide>
+    </FormContainer>
   </MainContainer>
 </template>
 
@@ -78,12 +88,17 @@ import {onMounted, type Ref, ref, watch} from 'vue'
 import { useAuthStore } from "@/stores/authStore";
 import MainContainer from "@/components/MainContainer.vue";
 import {useRouter} from "vue-router";
-import LeftSide from "@/components/LeftSide.vue";
+import FormContainer from "@/components/FormContainer.vue";
 import axios from "axios";
 import {generateHashedPassword} from "@/ts/generateHashedPassword";
-
+import {mdiEyeOutline, mdiEyeOffOutline} from "@mdi/js"
 const authStore = useAuthStore();
 const router = useRouter();
+
+const icons = {
+  eye: mdiEyeOutline,
+  eyeOff: mdiEyeOffOutline,
+}
 
 const signupBtn: any = ref(null);
 
@@ -101,12 +116,17 @@ watch([username, role, password, passwordRepeat], ([newUsername, newRole, newPas
   btn.disabled = !(newUsername.trim() !== '' && newRole.trim() !== '' && newPassword.trim() !== '' && newPasswordRepeat.trim() !== '' && newPasswordRepeat === newPassword);
 })
 
-const passwordInput: Ref<HTMLInputElement|null> = ref(null);
-const passwordCheckInput: Ref<HTMLInputElement|null> = ref(null);
+const passwordRepeatInput: Ref<HTMLInputElement | null> = ref(null)
+const passwordInput: Ref<HTMLInputElement | null> = ref(null)
 
+const passIconsState: Ref<Record<string, string>> = ref({
+  pass: "off",
+  passCheck: "off"
+})
 
-const toggleVisibility = (input: HTMLInputElement) => {
+const toggleVisibility = (input: HTMLInputElement, key: string) => {
   input.type = input.type === 'password' ? 'text' : 'password';
+  passIconsState.value[key] = passIconsState.value[key] === 'off' ? 'on' : 'off';
 }
 
 const handleSignup = async () => {

@@ -1,7 +1,9 @@
 export type Message = {
+    id: number,
     body: string,
     author_id: number,
     was_read: boolean
+    status: TaskStatus
 }
 
 export type Task = {
@@ -11,10 +13,12 @@ export type Task = {
     roles: Role[],
     ask_later: number[] | null,
     declined: number[] | null,
-    assignedTo: number | null,
+    assigned_to: number | null,
     author_id: number,
     created_at: string,
-    timeout: number
+    timeout: number,
+    status?: TaskStatus,
+    message_id?: number
 }
 
 export type User = {
@@ -26,4 +30,6 @@ export type User = {
     tasks: Task[]
 }
 
-export type Role = 'frontend' | 'backend' | 'fullstack' | 'designer' | 'qa' | 'admin' | 'guest';
+export type Role = 'frontend' | 'backend' | 'fullstack' | 'designer' | 'qa' | 'admin' | 'guest' | 'user';
+
+export type TaskStatus = 'new' | 'again' | 'failed';

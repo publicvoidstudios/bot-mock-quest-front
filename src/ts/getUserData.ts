@@ -1,5 +1,4 @@
 import type {User} from "@/ts/types";
-import {storeUser} from "@/ts/storeUser";
 
 export const getUserData = async (user_id: number) => {
     let userList: User[] = [];
@@ -13,7 +12,7 @@ export const getUserData = async (user_id: number) => {
     if(userList){
         const user: User | undefined = userList.find(user => user.id === user_id);
         if(user) {
-            storeUser(user);
+            localStorage.setItem('user', JSON.stringify(user));
         }
     }
 }

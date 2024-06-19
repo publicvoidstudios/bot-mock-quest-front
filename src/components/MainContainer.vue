@@ -1,5 +1,5 @@
 <template>
-  <div class="container grid grid-cols-1 sm:grid-cols-1 mx-auto h-[100dvh]">
+  <main>
     <slot></slot>
-  </div>
+  </main>
 </template>

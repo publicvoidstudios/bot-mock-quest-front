@@ -15,23 +15,15 @@
 }
 
 .form-input {
-    @apply h-[64px] bg-primaryLightOpaque border-2 border-primaryLightStroke rounded-[10px] font-inter text-primaryLight focus:outline-primaryLight caret-primary placeholder:text-primaryLightStroke;
+    @apply bg-white border border-gray-300 rounded py-2 px-3 text-gray-700 transition duration-150 ease-in-out focus:outline-primaryLight ;
 }
 
 .form-input--start-image {
-    @apply bg-[length:30px] bg-no-repeat bg-[10px_center]
-}
-
-.form-input--wide {
-    @apply w-[453px] ps-[50px] text-[18px]
+    @apply ps-[48px] bg-[length:30px] bg-no-repeat bg-[10px_center]
 }
 
 .form-input--no-image {
     @apply w-[453px] ps-[10px] text-[18px]
-}
-
-.form-input--narrow {
-    @apply w-[64px] text-center text-[32px]
 }
 
 .form-input--narrow::-webkit-outer-spin-button,
@@ -41,12 +33,9 @@
     -moz-appearance: textfield;
 }
 
-.btn-primary {
-    @apply rounded-[10px] bg-primaryLight hover:bg-primary disabled:bg-primaryLightOpaque w-[453px] h-[64px] text-white font-bold text-[20px] font-inter;
-}
 
 .header {
-    @apply text-[40px] font-bold text-fontSecondary;
+    @apply text-4xl font-bold text-fontSecondary;
 }
 
 .form {
@@ -60,3 +49,57 @@
 .eye-slash {
     @apply absolute top-1/2 right-[20px] -translate-y-1/2 cursor-pointer hover:scale-110;
 }
+
+.modal {
+    @apply fixed top-0 bottom-0 left-0 right-0 bg-gray-500 bg-opacity-50;
+}
+.modal__container {
+    @apply bg-white rounded shadow
+    fixed top-[50%] left-[50%] -translate-y-1/2 -translate-x-1/2
+    w-[540px]
+    flex flex-col
+    max-h-[90%]
+    overflow-auto;
+}
+
+.modal__header {
+    @apply border-b-2 flex justify-between w-[100%] items-center px-4 py-2 text-xl font-semibold sticky top-0 bg-white;
+}
+
+.modal__body {
+    @apply p-4
+}
+
+.modal__footer {
+    @apply p-4 flex gap-1 justify-end  bottom-0 bg-white border-t-2
+}
+
+.btn {
+    @apply rounded-md cursor-pointer px-4 py-2 select-none;
+}
+
+.btn-close {
+    @apply text-3xl hover:text-black text-gray-500 px-2;
+}
+
+.btn-primary {
+    @apply bg-primaryLight hover:bg-primary disabled:bg-primaryLightOpaque text-white;
+}
+
+.btn-secondary {
+    @apply bg-gray-500 hover:bg-gray-600 disabled:bg-gray-300 text-white;
+}
+
+.btn-danger {
+    @apply bg-red-500 hover:bg-red-600 disabled:bg-gray-300 text-white;
+}
+
+.btn-warning {
+    @apply bg-yellow-500 hover:bg-yellow-600 disabled:bg-gray-300 text-white;
+}
+
+.btn-success {
+    @apply bg-green-500 hover:bg-green-600 disabled:bg-gray-300 text-white;
+}
+
+
